@@ -1,0 +1,107 @@
+@import "tailwindcss";
+
+@theme {
+  --color-primary: #e3984e;
+  --color-secondary: #ffffff;
+  --color-accent: #f8f8f8;
+  --color-text-main: #1a1a1a;
+  --color-text-muted: #666666;
+  --color-border-custom: #e5e5e5;
+}
+
+:root {
+  --primary: #e3984e;
+  --secondary: #ffffff;
+  --accent: #f8f8f8;
+  --text-main: #1a1a1a;
+  --text-muted: #666666;
+  --border: #e5e5e5;
+}
+
+body {
+  font-family: 'Montserrat', sans-serif;
+  color: var(--text-main);
+  background-color: var(--secondary);
+  -webkit-font-smoothing: antialiased;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: 'Cormorant Garamond', serif;
+  font-weight: 500;
+}
+
+/* Luxury Transitions */
+.transition-luxury {
+  transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Container */
+.container-luxury {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+
+/* Professional Buttons */
+.btn-hotel {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem 2.5rem;
+  background: var(--primary);
+  color: white;
+  font-size: 0.8rem;
+  font-weight: 500;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  transition: all 0.3s ease;
+  border: 1px solid var(--primary);
+  cursor: pointer;
+}
+
+.btn-hotel:hover {
+  background: transparent;
+  color: var(--primary);
+}
+
+.btn-hotel-outline {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem 2.5rem;
+  background: transparent;
+  color: var(--primary);
+  font-size: 0.8rem;
+  font-weight: 500;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  transition: all 0.3s ease;
+  border: 1px solid var(--primary);
+  cursor: pointer;
+}
+
+.btn-hotel-outline:hover {
+  background: var(--primary);
+  color: white;
+}
+
+/* Utility */
+.section-spacing {
+  padding: 100px 0;
+}
+
+@media (max-width: 768px) {
+  .section-spacing {
+    padding: 60px 0;
+  }
+}
+
+/* Additional Tailwind Utility overwrites if needed for v4 */
+@utility vertical-text {
+  writing-mode: vertical-rl;
+}
