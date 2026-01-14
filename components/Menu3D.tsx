@@ -123,15 +123,15 @@ const MenuPage = ({ categories, onClose }: { categories: MenuCategory[], onClose
                                 {categories && categories.length > 0 ? (
                                     categories.map((cat, idx) => (
                                         <div key={idx} className="space-y-6">
-                                            <h3 className="text-3xl font-display text-[#e3984e] border-b border-white/10 pb-3 text-center sticky top-0 bg-[#0F0F0F] z-20 py-2">{cat.title}</h3>
+                                            <h3 className="text-4xl font-['Playfair_Display'] italic text-[#e3984e] border-b border-white/10 pb-3 text-center sticky top-0 bg-[#0F0F0F] z-20 py-2">{cat.title}</h3>
                                             <ul className="space-y-6">
                                                 {cat.items.map((item, i) => (
                                                     <li key={i} className="group relative">
                                                         <div className="flex justify-between items-baseline mb-2">
-                                                            <span className="text-2xl font-medium tracking-wide group-hover:text-[#e3984e] transition-colors font-display">{item.name}</span>
-                                                            <span className="text-[#e3984e] font-bold text-xl">{item.price}</span>
+                                                            <span className="text-3xl font-['Playfair_Display'] italic tracking-wide group-hover:text-[#e3984e] transition-colors">{item.name}</span>
+                                                            <span className="text-[#e3984e] font-bold text-xl font-['Cormorant_Garamond']">{item.price}</span>
                                                         </div>
-                                                        <p className="text-sm text-gray-400 font-light italic leading-relaxed">{item.text}</p>
+                                                        <p className="text-lg text-gray-300 font-light leading-relaxed font-['Playfair_Display']">{item.text}</p>
                                                         {/* Dot leader visual */}
                                                         <div className="absolute left-0 bottom-0 w-full border-b border-white/5 border-dashed opacity-30 mt-4"></div>
                                                     </li>

@@ -3,22 +3,7 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 
-const MENU_ITEMS = {
-    'None (Table Only)': 0,
-    'Jhol Momo': 250,
-    'Samosa Chaat': 180,
-    'Chicken Choila': 380,
-    'Pork Sekuwa': 450,
-    'Sel Roti & Aloo': 200,
-    'Thakali Set': 550,
-    'Clay Pot Biryani': 600,
-    'Bhat Set with Masu': 500,
-    'Homestyle Egg Curry': 320,
-    'Chicken Thukpa': 300,
-    'Millet Bread (Kodo)': 100,
-    'Butter Naan': 80,
-    'Mustard Greens (Saag)': 150
-} as const;
+
 
 const Reservation = () => {
     const [formData, setFormData] = useState({
@@ -34,12 +19,59 @@ const Reservation = () => {
     const [status, setStatus] = useState<'idle' | 'success' | 'error'>('idle');
     const [isModalOpen, setIsModalOpen] = useState(false);
 
-    // Calculate Bill
-    const unitPrice = MENU_ITEMS[formData.selectedItem as keyof typeof MENU_ITEMS] || 0;
-    const guestCount = parseInt(formData.guests) || 1;
-    const totalPrice = unitPrice * guestCount;
+    // Dynamic Menu State
+    const [menuItems, setMenuItems] = useState<any[]>([]);
+    const [selectedItemPrice, setSelectedItemPrice] = useState(0);
 
-    const handleConfirmBooking = (e: React.FormEvent) => {
+    useEffect(() => {
+        const fetchMenu = async () => {
+            try {
+                const res = await fetch('/api/menu');
+                const data = await res.json();
+                if (data.success) {
+                    setMenuItems(data.items);
+                }
+            } catch (error) {
+                console.error("Failed to load menu for reservation", error);
+            }
+        };
+        fetchMenu();
+    }, []);
+
+    // Calculate Bill
+    // Logic: Look up price of selectedItem from menuItems state
+    useEffect(() => {
+        if (formData.selectedItem === 'None (Table Only)') {
+            setSelectedItemPrice(0);
+        } else {
+            const item = menuItems.find(i => i.name === formData.selectedItem);
+            if (item) {
+                // Parse price ("Rs. 250" -> 250)
+                const priceString = item.price.replace(/[^0-9.]/g, '');
+                setSelectedItemPrice(parseFloat(priceString) || 0);
+            } else {
+                setSelectedItemPrice(0);
+            }
+        }
+    }, [formData.selectedItem, menuItems]);
+
+    // guestCount is relevant if users order per person, but "Pre-order Food" 
+    // usually implies a single dish for the table or per person. 
+    // The previous logic multiplied unitPrice * guestCount. 
+    // Assuming "Pre-order" means "One portion for each guest" logic is kept, 
+    // OR if it means "One item total", we should probably clarify.
+    // The previous code: const totalPrice = unitPrice * guestCount;
+    // Let's keep this logic as it seems to be the intention (e.g. buffet or set meal logic).
+
+    const guestCount = parseInt(formData.guests) || 1;
+    // If Item is "None", price is 0.
+    // If Item is selected, total = price * guests.
+    // NOTE: If the user selects "Chicken Choila" (Rs 380) and 4 guests, total is 380 * 4 = 1520.
+    // This assumes everyone gets the same item. 
+    // For a simple pre-order dropdown, this is acceptable.
+    const totalPrice = selectedItemPrice * guestCount;
+
+    const handleConfirmBooking = async (e: React.FormEvent) => {
         e.preventDefault();
         setLoading(true);
 
@@ -50,10 +82,29 @@ const Reservation = () => {
             return;
         }
 
-        // WhatsApp Logic
-        const phoneNumber = '9779811335351'; // Corrected to 10 digits (User provided 11, likely typo)
+        try {
+            // 1. Save to Database
+            const res = await fetch('/api/reservations', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    name: formData.personName,
+                    phone: formData.phoneNumber,
+                    date: formData.resDate,
+                    time: formData.resTime,
+                    guests: formData.guests,
+                    specialRequest: formData.specialRequest,
+                    selectedItem: formData.selectedItem,
+                    totalPrice: totalPrice
+                }),
+            });
 
-        const message = `
+            if (!res.ok) throw new Error('Failed to save reservation');
+
+            // 2. WhatsApp Logic
+            const phoneNumber = '9779811335351';
+
+            const message = `
 New Table Reservation & Order 🍽️
 ---------------------------
 Name: ${formData.personName}
@@ -66,30 +117,36 @@ Total Est. Bill: Rs. ${totalPrice}
 Special Request: ${formData.specialRequest || 'None'}
 ---------------------------
 Sent from website.
-        `.trim();
+            `.trim();
 
-        const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
+            const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
 
-        // Open WhatsApp
-        window.open(whatsappUrl, '_blank');
+            // Open WhatsApp
+            window.open(whatsappUrl, '_blank');
 
-        // Show Success UI
-        setStatus('success');
-        setFormData({
-            personName: '',
-            phoneNumber: '',
-            resDate: '',
-            resTime: '',
-            guests: '1',
-            specialRequest: '',
-            selectedItem: 'None (Table Only)'
-        });
+            // Show Success UI
+            setStatus('success');
+            setFormData({
+                personName: '',
+                phoneNumber: '',
+                resDate: '',
+                resTime: '',
+                guests: '1',
+                specialRequest: '',
+                selectedItem: 'None (Table Only)'
+            });
 
-        setLoading(false);
-        setTimeout(() => {
-            setIsModalOpen(false);
-            setStatus('idle');
-        }, 3000);
+        } catch (error) {
+
+            setStatus('error');
+            alert('Could not save reservation. Please try again or contact us directly.');
+        } finally {
+            setLoading(false);
+            setTimeout(() => {
+                setIsModalOpen(false);
+                setStatus('idle');
+            }, 3000);
+        }
     };
 
     return (
@@ -205,8 +262,11 @@ Sent from website.
                                             onChange={(e) => setFormData({ ...formData, selectedItem: e.target.value })}
                                             className="w-full bg-[#111] border-b border-white/20 py-2 text-white focus:outline-none focus:border-[#e3984e] transition-colors text-sm"
                                         >
-                                            {Object.keys(MENU_ITEMS).map(item => (
-                                                <option key={item} value={item}>{item}</option>
+                                            <option value="None (Table Only)">None (Table Only)</option>
+                                            {menuItems.map(item => (
+                                                <option key={item.id} value={item.name}>
+                                                    {item.name} - {item.price}
+                                                </option>
                                             ))}
                                         </select>
                                     </div>
@@ -250,5 +310,4 @@ Sent from website.
         </section>
     );
 };
-
 export default Reservation;

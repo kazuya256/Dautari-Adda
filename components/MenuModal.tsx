@@ -1,41 +1,61 @@
 'use client';
 
+import React from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Menu3D from './Menu3D';
 
 const MenuModal = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) => {
-    const categories = [
-        {
-            title: 'Small Plates & Street Food',
-            items: [
-                { name: 'Jhol Momo', text: 'Steamed dumplings drowned in spicy sesame broth.', price: 'Rs. 250' },
-                { name: 'Samosa Chaat', text: 'Crushed samosas topped with yogurt, tamarind, and pomegranate.', price: 'Rs. 180' },
-                { name: 'Chicken Choila', text: 'Spiced grilled chicken tossed with mustard oil and fenugreek.', price: 'Rs. 380' },
-                { name: 'Pork Sekuwa', text: 'Traditional charcoal-grilled skewered meat.', price: 'Rs. 450' },
-                { name: 'Sel Roti & Aloo', text: 'Sweet rice donuts served with spicy potato curry.', price: 'Rs. 200' },
-            ]
-        },
-        {
-            title: 'Mains & Bhojan',
-            items: [
-                { name: 'Thakali Set', text: 'Complete meal with rice, lentils, curry, greens, and pickles.', price: 'Rs. 550' },
-                { name: 'Clay Pot Biryani', text: 'Aromatic basmati rice slow-cooked with saffron and chicken.', price: 'Rs. 600' },
-                { name: 'Bhat Set with Masu', text: 'Village-style rice set with rich mutton or chicken curry.', price: 'Rs. 500' },
-                { name: 'Homestyle Egg Curry', text: 'Boiled eggs simmered in a rich tomato and onion gravy.', price: 'Rs. 320' },
-                { name: 'Chicken Thukpa', text: 'Hearty Himalayan noodle soup with fresh vegetables.', price: 'Rs. 300' },
-            ]
-        },
-        {
-            title: 'Sides & Breads',
-            items: [
-                { name: 'Millet Bread (Kodo)', text: 'Rustic local flatbread.', price: 'Rs. 100' },
-                { name: 'Butter Naan', text: 'Soft clay-oven bread.', price: 'Rs. 80' },
-                { name: 'Mustard Greens (Saag)', text: 'Fresh seasonal greens stir-fried.', price: 'Rs. 150' },
-            ]
-        }
+    const [categories, setCategories] = React.useState<any[]>([]);
+    const [loading, setLoading] = React.useState(true);
+
+    const categoryOrder = [
+        'Small Plates & Street Food',
+        'Main & Bhojans',
+        'Side & Breads',
+        'Desserts',
+        'Cold Drinks'
     ];
 
+    React.useEffect(() => {
+        if (!isOpen) return;
+
+        const fetchMenu = async () => {
+            try {
+                const res = await fetch('/api/menu');
+                const data = await res.json();
+                if (data.success) {
+                    const grouped: any = {};
+                    categoryOrder.forEach(c => grouped[c] = []);
+
+                    data.items.forEach((item: any) => {
+                        if (!grouped[item.category]) grouped[item.category] = [];
+                        grouped[item.category].push({
+                            name: item.name,
+                            text: item.description,
+                            price: item.price
+                        });
+                    });
+
+                    const formattedCategories = categoryOrder.map(cat => ({
+                        title: cat,
+                        items: grouped[cat] || []
+                    })).filter(c => c.items.length > 0);
+
+                    setCategories(formattedCategories);
+                }
+            } catch (error) {
+
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchMenu();
+    }, [isOpen]);
+
     if (!isOpen) return null;
+
+    if (loading) return null; // Or a loading spinner
 
     return (
         <Menu3D categories={categories} onClose={onClose} />

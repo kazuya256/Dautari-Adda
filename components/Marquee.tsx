@@ -2,14 +2,20 @@
 
 import { motion } from 'framer-motion';
 
-const Marquee = () => {
+interface MarqueeProps {
+    text?: string;
+}
+
+const Marquee = ({ text = "Welcome to Dautari Adda - Experience the taste of tradition" }: MarqueeProps) => {
+    if (!text) return null;
+
     return (
         <div className="bg-[#e3984e] text-black py-2 overflow-hidden relative z-50">
             <div className="flex gap-8 animate-marquee whitespace-nowrap">
                 {[...Array(10)].map((_, i) => (
                     <div key={i} className="flex items-center gap-8">
                         <span className="text-sm font-bold tracking-widest uppercase">
-                            ✨ Grand Re-Opening Special: 20% OFF on all Traditional Thalis
+                            ✨ {text}
                         </span>
                         <span className="w-2 h-2 bg-black rounded-full"></span>
                     </div>
