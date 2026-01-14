@@ -51,7 +51,7 @@ const Reservation = () => {
         }
 
         // WhatsApp Logic
-        const phoneNumber = '9779824998172'; // Corrected to 10 digits (User provided 11, likely typo)
+        const phoneNumber = '9779811335351'; // Corrected to 10 digits (User provided 11, likely typo)
 
         const message = `
 New Table Reservation & Order 🍽️
@@ -93,79 +93,54 @@ Sent from website.
     };
 
     return (
-        <section id="contact" className="py-32 bg-[#050505] relative overflow-hidden border-t border-white/5">
+        <section className="py-24 bg-[#050505] relative min-h-screen flex items-center justify-center overflow-hidden">
             {/* Background Elements */}
-            <div className="absolute inset-0 bg-[url('/images/reservation-bg.jpg')] bg-cover bg-center opacity-20 filter grayscale contrast-125 pointer-events-none mix-blend-overlay"></div>
-            <div className="absolute inset-0 bg-gradient-to-t from-[#050505] via-[#050505]/80 to-transparent"></div>
+            <div className="absolute inset-0 bg-[url('/images/reservation-bg.jpg')] bg-cover bg-center opacity-10 filter grayscale contrast-125 pointer-events-none"></div>
+            <div className="absolute top-0 right-0 w-full h-full bg-gradient-to-l from-black via-black/90 to-black/80"></div>
 
-            <div className="container-luxury relative z-10 text-center">
-                <motion.div
-                    initial={{ opacity: 0, y: 30 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    className="max-w-3xl mx-auto space-y-8"
-                >
-                    <span className="text-[#e3984e] text-xs font-bold tracking-[0.4em] uppercase block">Join Us Today</span>
-                    <h2 className="text-5xl md:text-7xl font-light text-white font-display leading-[1.1]">
-                        Experience <br />
-                        <span className="italic text-gray-500">True Hospitality</span>
-                    </h2>
-                    <p className="text-xl text-gray-300 font-light leading-relaxed max-w-2xl mx-auto">
-                        Whether it's a romantic dinner or a family gathering, ensure your spot at Dautari Adda. We look forward to serving you.
-                    </p>
+            <div className="container-luxury relative z-10 w-full">
+                <div className="flex flex-col lg:flex-row gap-16 items-center">
 
-                    <div className="pt-8">
-                        <button
-                            onClick={() => setIsModalOpen(true)}
-                            className="bg-[#e3984e] text-white px-10 py-5 text-sm uppercase tracking-widest font-bold hover:bg-[#d68a3f] transition-all shadow-2xl hover:scale-105 active:scale-95"
-                        >
-                            Reserve Your Table
-                        </button>
-                    </div>
-
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-8 pt-16 border-t border-white/10 mt-16 max-w-4xl mx-auto">
-                        <div>
-                            <h4 className="text-white font-display text-xl mb-4">Open Hours</h4>
-                            <p className="text-gray-400 font-light tracking-wide">Sun - Fri: 09:00 AM - 10:00 PM</p>
-                            <p className="text-gray-400 font-light tracking-wide">Saturday: 10:00 AM - 11:00 PM</p>
-                        </div>
-                        <div>
-                            <h4 className="text-white font-display text-xl mb-4">Contact</h4>
-                            <p className="text-gray-400 font-light tracking-wide">+977-9800000000</p>
-                            <p className="text-gray-400 font-light tracking-wide">info@dautariadda.com</p>
-                        </div>
-                    </div>
-                </motion.div>
-            </div>
-
-            {/* Modal */}
-            <AnimatePresence>
-                {isModalOpen && (
-                    <motion.div
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        exit={{ opacity: 0 }}
-                        className="fixed inset-0 z-[200] bg-black/90 backdrop-blur-md flex justify-center items-center p-4"
-                        onClick={() => setIsModalOpen(false)}
-                    >
+                    {/* Left Text Content */}
+                    <div className="w-full lg:w-1/2 space-y-8 text-center lg:text-left">
                         <motion.div
-                            initial={{ scale: 0.95, opacity: 0, y: 20 }}
-                            animate={{ scale: 1, opacity: 1, y: 0 }}
-                            exit={{ scale: 0.95, opacity: 0, y: 20 }}
-                            className="bg-[#111] border border-white/10 w-full max-w-lg p-8 md:p-12 relative shadow-2xl overflow-y-auto max-h-[90vh]"
-                            onClick={(e) => e.stopPropagation()}
+                            initial={{ opacity: 0, y: 30 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            viewport={{ once: true }}
                         >
-                            <button
-                                onClick={() => setIsModalOpen(false)}
-                                className="absolute top-6 right-6 text-gray-500 hover:text-white transition-colors"
-                            >
-                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M18 6L6 18M6 6l12 12" /></svg>
-                            </button>
+                            <span className="text-[#e3984e] text-xs font-bold tracking-[0.4em] uppercase block mb-4">Join Us</span>
+                            <h2 className="text-5xl md:text-7xl font-light text-white font-display leading-[1.1] mb-6">
+                                Reserve <br />
+                                <span className="italic text-gray-500">Your Spot</span>
+                            </h2>
+                            <p className="text-xl text-gray-300 font-light leading-relaxed max-w-xl mx-auto lg:mx-0">
+                                Whether it's a romantic dinner or a family gathering, ensure your spot at Dautari Adda. Experience the finest dining in Kirtipur.
+                            </p>
 
-                            <div className="text-center mb-8">
-                                <h3 className="text-3xl text-white font-display italic">Reserve a Table</h3>
-                                <p className="text-[#e3984e] text-xs uppercase tracking-widest mt-2 font-bold">Secure your experience</p>
+                            <div className="grid grid-cols-2 gap-8 pt-12 border-t border-white/10 mt-12">
+                                <div>
+                                    <h4 className="text-white font-display text-xl mb-2">Lunch</h4>
+                                    <p className="text-gray-400 font-light text-sm">11:00 AM - 03:00 PM</p>
+                                </div>
+                                <div>
+                                    <h4 className="text-white font-display text-xl mb-2">Dinner</h4>
+                                    <p className="text-gray-400 font-light text-sm">06:00 PM - 10:00 PM</p>
+                                </div>
                             </div>
+                        </motion.div>
+                    </div>
+
+                    {/* Right Form - Embedded */}
+                    <div className="w-full lg:w-1/2">
+                        <motion.div
+                            initial={{ opacity: 0, x: 50 }}
+                            whileInView={{ opacity: 1, x: 0 }}
+                            viewport={{ once: true }}
+                            className="bg-[#111] border border-white/10 p-8 md:p-10 shadow-2xl relative"
+                        >
+                            <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-[#e3984e] to-transparent"></div>
+
+                            <h3 className="text-3xl text-white font-display italic mb-8 text-center lg:text-left">Details</h3>
 
                             <form onSubmit={handleConfirmBooking} className="space-y-6">
                                 <div className="space-y-2">
@@ -211,7 +186,6 @@ Sent from website.
                                     </div>
                                 </div>
 
-                                {/* Food Pre-order */}
                                 <div className="grid grid-cols-2 gap-6">
                                     <div className="space-y-2">
                                         <label className="text-[10px] uppercase tracking-widest text-gray-500 font-bold">Guests</label>
@@ -249,7 +223,6 @@ Sent from website.
                                     />
                                 </div>
 
-                                {/* Bill Summary */}
                                 <div className="bg-white/5 p-4 rounded border border-white/10 flex justify-between items-center">
                                     <span className="text-gray-400 text-sm">Estimated Total</span>
                                     <span className="text-[#e3984e] font-display text-xl">Rs. {totalPrice}</span>
@@ -258,9 +231,9 @@ Sent from website.
                                 <button
                                     type="submit"
                                     disabled={loading}
-                                    className="w-full bg-[#e3984e] text-white font-bold uppercase tracking-widest py-4 hover:bg-[#d68a3f] transition-all disabled:opacity-50 mt-4 shadow-lg"
+                                    className="w-full bg-[#e3984e] text-black font-bold uppercase tracking-widest py-4 hover:bg-[#d68a3f] transition-all disabled:opacity-50 mt-4 shadow-lg hover:shadow-[#e3984e]/20"
                                 >
-                                    {loading ? 'Processing...' : 'Confirm & Reserve'}
+                                    {loading ? 'Processing...' : 'Confirm Reservation'}
                                 </button>
 
                                 {status === 'success' && (
@@ -271,9 +244,9 @@ Sent from website.
                                 )}
                             </form>
                         </motion.div>
-                    </motion.div>
-                )}
-            </AnimatePresence>
+                    </div>
+                </div>
+            </div>
         </section>
     );
 };

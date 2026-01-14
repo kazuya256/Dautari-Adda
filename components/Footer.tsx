@@ -30,9 +30,9 @@ const Footer = () => {
                     <div>
                         <h4 className="text-[10px] tracking-[0.4em] uppercase font-bold mb-10 text-white/30">Explore</h4>
                         <ul className="space-y-4">
-                            <li><Link href="#dining" className="text-sm font-light hover:text-white/50 transition-colors">Dining & Bar</Link></li>
-                            <li><Link href="#about" className="text-sm font-light hover:text-white/50 transition-colors">The Story</Link></li>
-                            <li><Link href="#gallery" className="text-sm font-light hover:text-white/50 transition-colors">Visual Archive</Link></li>
+                            <li><Link href="/dining" className="text-sm font-light hover:text-white/50 transition-colors">Dining & Bar</Link></li>
+                            <li><Link href="/about" className="text-sm font-light hover:text-white/50 transition-colors">The Story</Link></li>
+                            <li><Link href="/gallery" className="text-sm font-light hover:text-white/50 transition-colors">Visual Archive</Link></li>
                         </ul>
                     </div>
 

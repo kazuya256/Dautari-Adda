@@ -6,6 +6,8 @@ import Link from 'next/link';
 import Image from 'next/image';
 import MenuModal from './MenuModal';
 
+import Marquee from './Marquee';
+
 const Dining = () => {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
 
@@ -28,6 +30,12 @@ const Dining = () => {
 
     return (
         <section id="dining" className="section-spacing bg-[#111] relative overflow-hidden">
+
+            {/* Announcement Marquee - Eye catching */}
+            <div className="absolute top-20 left-0 right-0 z-40 opacity-80 hover:opacity-100 transition-opacity">
+                <Marquee />
+            </div>
+
             {/* Background Texture similar to About */}
             <div className="absolute top-0 right-0 p-20 opacity-[0.05] pointer-events-none invert">
                 <svg width="400" height="400" viewBox="0 0 100 100" className="animate-[spin_60s_linear_infinite]">
@@ -50,6 +58,48 @@ const Dining = () => {
                         </h2>
                     </motion.div>
                 </div>
+
+                {/* Offer & Today's Special */}
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-32">
+                    {/* Offer */}<motion.div
+                        initial={{ opacity: 0, x: -50 }}
+                        whileInView={{ opacity: 1, x: 0 }}
+                        className="bg-[#1a1a1a] p-10 border border-[#e3984e]/20 relative overflow-hidden group hover:border-[#e3984e] transition-colors duration-500"
+                    >
+                        {/* Animated Glow Ring */}
+                        <div className="absolute top-0 right-0 -mr-20 -mt-20 w-64 h-64 rounded-full bg-[#e3984e]/10 blur-3xl animate-pulse"></div>
+
+                        <div className="absolute top-0 right-0 p-4 bg-[#e3984e] text-black font-bold uppercase text-xs tracking-widest z-10 shadow-[0_0_20px_rgba(227,152,78,0.4)]">
+                            Limited Time
+                        </div>
+                        <h3 className="text-3xl font-display text-white mb-2 relative z-10">Weekend Feast Offer</h3>
+                        <p className="text-[#e3984e] text-lg mb-4 font-medium relative z-10">Get <span className="text-4xl font-bold">20% OFF</span> on Family Platters</p>
+                        <p className="text-gray-400 font-light mb-8 relative z-10 leading-relaxed">Bring your loved ones and enjoy a grand feast with our exclusive weekend discount. Valid Sat-Sun.</p>
+                        <button className="relative z-10 px-8 py-3 bg-transparent border border-[#e3984e] text-[#e3984e] hover:bg-[#e3984e] hover:text-black transition-all duration-300 uppercase text-xs tracking-widest font-bold">
+                            Claim Offer
+                        </button>
+                    </motion.div>
+
+                    {/* Today's Special */}
+                    <motion.div
+                        initial={{ opacity: 0, x: 50 }}
+                        whileInView={{ opacity: 1, x: 0 }}
+                        className="relative h-[400px] overflow-hidden group"
+                    >
+                        <Image
+                            src="https://images.unsplash.com/photo-1565557623262-b51c2513a641?auto=format&fit=crop&q=80&w=1000"
+                            alt="Today's Special"
+                            fill
+                            className="object-cover transition-transform duration-700 group-hover:scale-110"
+                        />
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/90 to-transparent flex flex-col justify-end p-10">
+                            <span className="text-[#e3984e] text-xs uppercase tracking-[0.3em] mb-2">Today's Special</span>
+                            <h3 className="text-3xl font-display text-white mb-2">Spicy Chicken Thukpa</h3>
+                            <p className="text-gray-300 font-light text-sm line-clamp-2">A warming bowl of handmade noodles in a rich, spicy broth topped with tender chicken and fresh herbs.</p>
+                        </div>
+                    </motion.div>
+                </div>
+
 
                 <div className="space-y-40">
                     {sections.map((item, index) => (

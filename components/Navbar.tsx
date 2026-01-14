@@ -10,8 +10,6 @@ const Navbar = () => {
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
     const { scrollY } = useScroll();
 
-    // Parallax/Fade effect for logo could be added here if desired
-
     useEffect(() => {
         const handleScroll = () => {
             setIsScrolled(window.scrollY > 50);
@@ -44,7 +42,7 @@ const Navbar = () => {
             >
                 <motion.span
                     variants={linkVariants}
-                    className={`text-[11px] uppercase tracking-[0.25em] font-medium transition-colors duration-300 ${isScrolled ? 'text-gray-200' : 'text-white'}`}
+                    className={`text-[12px] uppercase tracking-[0.2em] font-medium transition-colors duration-300 ${isScrolled ? 'text-gray-200' : 'text-white'}`}
                 >
                     {text}
                 </motion.span>
@@ -63,33 +61,31 @@ const Navbar = () => {
             transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
             className={`fixed top-0 left-0 right-0 z-[100] transition-all duration-500 ${isScrolled
                 ? 'bg-black/90 backdrop-blur-md shadow-lg py-4 border-b border-white/5'
-                : 'bg-transparent py-6'
+                : 'bg-gradient-to-b from-black/80 to-transparent py-6'
                 }`}
         >
             <div className="container-luxury flex items-center justify-between">
-                {/* Desktop Nav Left */}
-                <div className="hidden lg:flex items-center gap-12">
-                    <NavLink href="#dining" text="Dining" />
-                    <NavLink href="#about" text="About" />
-                </div>
-
-                {/* Logo (Centered on Desktop, Left/Center on Mobile) */}
-                <Link href="#home" className="relative z-50">
+                {/* Logo Left */}
+                <Link href="/" className="relative z-50">
                     <motion.div
-                        className="text-center cursor-pointer"
+                        className="flex flex-col"
                         whileHover={{ scale: 1.05 }}
                         transition={{ duration: 0.3 }}
                     >
-                        <h1 className="text-xl md:text-3xl font-display text-white tracking-widest uppercase">
+                        <h1 className="text-2xl md:text-3xl font-display text-white tracking-widest uppercase">
                             Dautari <span className="text-[#e3984e]">Adda</span>
                         </h1>
                     </motion.div>
                 </Link>
 
                 {/* Desktop Nav Right */}
-                <div className="hidden lg:flex items-center gap-12">
-                    <NavLink href="#gallery" text="Gallery" />
-                    <NavLink href="#contact" text="Contact" />
+                <div className="hidden lg:flex items-center gap-10">
+                    <NavLink href="/" text="Home" />
+                    <NavLink href="/about" text="About" />
+                    <NavLink href="/gallery" text="Gallery" />
+                    <NavLink href="/dining" text="Dining" />
+                    <NavLink href="/reserve" text="Reserve" />
+                    <NavLink href="/contact" text="Contact" />
                 </div>
 
                 {/* Mobile Menu Toggle */}
@@ -114,10 +110,12 @@ const Navbar = () => {
                             className="fixed inset-0 bg-black/95 backdrop-blur-xl z-40 flex flex-col items-center justify-center space-y-8 lg:hidden"
                         >
                             <div className="flex flex-col items-center gap-8">
-                                <Link href="#dining" onClick={() => setIsMobileMenuOpen(false)} className="text-2xl font-display text-white tracking-widest uppercase hover:text-[#e3984e] transition-colors">Dining</Link>
-                                <Link href="#about" onClick={() => setIsMobileMenuOpen(false)} className="text-2xl font-display text-white tracking-widest uppercase hover:text-[#e3984e] transition-colors">About</Link>
-                                <Link href="#gallery" onClick={() => setIsMobileMenuOpen(false)} className="text-2xl font-display text-white tracking-widest uppercase hover:text-[#e3984e] transition-colors">Gallery</Link>
-                                <Link href="#contact" onClick={() => setIsMobileMenuOpen(false)} className="text-2xl font-display text-white tracking-widest uppercase hover:text-[#e3984e] transition-colors">Contact</Link>
+                                <Link href="/" onClick={() => setIsMobileMenuOpen(false)} className="text-2xl font-display text-white tracking-widest uppercase hover:text-[#e3984e] transition-colors">Home</Link>
+                                <Link href="/about" onClick={() => setIsMobileMenuOpen(false)} className="text-2xl font-display text-white tracking-widest uppercase hover:text-[#e3984e] transition-colors">About</Link>
+                                <Link href="/gallery" onClick={() => setIsMobileMenuOpen(false)} className="text-2xl font-display text-white tracking-widest uppercase hover:text-[#e3984e] transition-colors">Gallery</Link>
+                                <Link href="/dining" onClick={() => setIsMobileMenuOpen(false)} className="text-2xl font-display text-white tracking-widest uppercase hover:text-[#e3984e] transition-colors">Dining</Link>
+                                <Link href="/reserve" onClick={() => setIsMobileMenuOpen(false)} className="text-2xl font-display text-white tracking-widest uppercase hover:text-[#e3984e] transition-colors">Reserve</Link>
+                                <Link href="/contact" onClick={() => setIsMobileMenuOpen(false)} className="text-2xl font-display text-white tracking-widest uppercase hover:text-[#e3984e] transition-colors">Contact</Link>
                             </div>
                         </motion.div>
                     )}
